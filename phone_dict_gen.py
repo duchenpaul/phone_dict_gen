@@ -5,6 +5,7 @@ DB_FILE = 'phone_region.db'
 
 query_sql = 'SELECT phone_num_region FROM number_region;'
 
+
 @logging_manager.logging_to_file
 def query_phone_num_region():
     with toolkit_sqlite.SqliteDB(DB_FILE) as sqlitedb:
@@ -19,6 +20,7 @@ def generate_dict(phone_num_region):
             for j in range(10):
                 phone_number = i + str(j).zfill(4)
                 f.write(phone_number + '\n')
+
 
 if __name__ == '__main__':
     phone_num_region = query_phone_num_region()
