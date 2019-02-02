@@ -45,6 +45,7 @@ if __name__ == '__main__':
             html = f.read()
         allPhoneNumRegionList += join_number_region(html)
 
+    print('Load to database...')
     df = pd.DataFrame(allPhoneNumRegionList)
     with toolkit_sqlite.SqliteDB(DB_FILE) as sqlitedb:
         sqlitedb.execute('DELETE FROM {}'.format(tableName))
