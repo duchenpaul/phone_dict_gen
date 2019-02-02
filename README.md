@@ -1,0 +1,1 @@
+# Generate dictionary based on Chinese phone number
