@@ -3,7 +3,7 @@ import toolkit_sqlite
 
 DB_FILE = 'phone_region.db'
 
-query_sql = 'SELECT phone_num_region FROM number_region;'
+query_sql = 'SELECT phone_num_region FROM number_region order by priority desc;'
 
 
 @logging_manager.logging_to_file
@@ -33,7 +33,7 @@ def generate_dict_8_digits():
             f.write(number + '\n')
 
 if __name__ == '__main__':
-    # phone_num_region = query_phone_num_region()
-    # generate_dict(phone_num_region)
-    generate_dict_8_digits()
+    phone_num_region = query_phone_num_region()
+    generate_dict(phone_num_region)
+    # generate_dict_8_digits()
 
