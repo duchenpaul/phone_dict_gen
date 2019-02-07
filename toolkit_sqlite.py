@@ -134,7 +134,7 @@ class SqliteDB():
 
 if __name__ == '__main__':
     PATH = r'C:\Users\chdu\Desktop\Portal\Other\python_toolkit'
-    DB_FILE = 'test.db'
+    DB_FILE = 'phone_region.db'
     # DB_FILE = ':memory:'
     JSON_FILE = PATH + '\\' + 'ctl_rs_process_sql_test.json'
     # csvFile = r'C:\Users\chdu\Desktop\outbox\Carters_INACT.csv'
@@ -145,9 +145,20 @@ if __name__ == '__main__':
     drop_table = '''DROP TABLE `work_todo11` '''
     # sqlitedb = _sqlitedb(DB_FILE)
 
+    update_sql = r'''UPDATE number_region
+                       SET -- phone_num_region = 'phone_num_region',
+                           -- city = 'city',
+                           
+                    priority = 8
+                     WHERE province = '浙江'
+                    ;'''
+
+    query_sql = r'''SELECT DISTINCT province, priority FROM number_region order by priority desc;'''
     with SqliteDB(DB_FILE) as sqlitedb:
         # print(sqlitedb.query('select * from Status_sheet'))
         # sqlitedb.execute(create_view)
-        sqlitedb.load_csv(csvFile, tableName=None, delimiter='\t')
+        sqlitedb.execute(update_sql)
+        for province, priority in sqlitedb.query(query_sql):
+            print('{}|{}'.format(province, priority))
         # sqlitedb.executemany(batch_insert, tupleList)
         # sqlitedb.execute(drop_table)
