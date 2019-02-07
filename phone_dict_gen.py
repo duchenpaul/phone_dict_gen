@@ -3,7 +3,7 @@ import toolkit_sqlite
 
 DB_FILE = 'phone_region.db'
 
-query_sql = 'SELECT phone_num_region FROM number_region order by priority desc;'
+query_sql = 'SELECT phone_num_region FROM number_region where priority <> 0 order by priority desc;'
 
 
 @logging_manager.logging_to_file
