@@ -9,7 +9,7 @@ import toolkit_sqlite
 import toolkit_text
 
 DB_FILE = 'phone_region.db'
-tableName = 'number_region'
+tableName = 'number_region_new'
 
 
 @logging_manager.logging_to_file
