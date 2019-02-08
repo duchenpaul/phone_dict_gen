@@ -7,8 +7,8 @@ try:
 except ImportError:
     from urllib import quote_plus
 
+root_url = 'http://www.51hao.cc'
 
-url = 'http://www.51hao.cc/index.php'
 headers = {
     'Host': 'www.51hao.cc',
     'Connection': 'keep-alive',
@@ -20,21 +20,50 @@ headers = {
 }
 allow_redirects = True
 
-resp = requests.get(url, headers=headers, allow_redirects=allow_redirects)
-resp.encoding = 'gb2312'
 
-# print(resp.text)
-with open('index.html', 'w', encoding='utf-8', newline='\n') as f:
-    f.write(resp.text)
-
-soup = BeautifulSoup(resp.text, 'lxml')
-links = [a.get('href') for a in soup.find_all('a', href=True)]
-validlink = [x for x in links if x.endswith('php')]
-print('\n'.join(validlink))
-
-for link in validlink:
-    print(link.split('/')[-1])
-    resp = requests.get(link, headers=headers, allow_redirects=allow_redirects)
+def get_province_link_list():
+    '''Extrect province_link from index page'''
+    url = root_url + '/index.php'
+    resp = requests.get(url, headers=headers, allow_redirects=allow_redirects)
     resp.encoding = 'gb2312'
-    with open('html' + os.sep + link.split('/')[-1] + '.html', 'w', encoding='utf-8', newline='\n') as f:
+    # print(resp.text)
+    with open('index.html', 'w', encoding='utf-8', newline='\n') as f:
         f.write(resp.text)
+
+    soup = BeautifulSoup(resp.text, 'lxml')
+    links = [a.get('href') for a in soup.find_all('a', href=True)]
+    provinceLinkList = [
+        x for x in links if not x.endswith('php') and 'city' in x]
+    return provinceLinkList
+
+
+def get_city_link_list(provinceLink):
+    '''Extrect city link from province page'''
+    print('Get province ' + provinceLink)
+    resp = requests.get(provinceLink, headers=headers,
+                        allow_redirects=allow_redirects)
+    resp.encoding = 'gb2312'
+    soup = BeautifulSoup(resp.text, 'lxml')
+    links = [a.get('href') for a in soup.find_all('a', href=True)]
+    cityLinkList = [provinceLink + '/' + x for x in links if x.endswith('php')]
+    return cityLinkList
+
+
+def download_number_page(cityLink):
+    '''Download number_page from city link'''
+    print('Get city ' + cityLink.split('/')[-1])
+
+    resp = requests.get(cityLink, headers=headers,
+                        allow_redirects=allow_redirects)
+    resp.encoding = 'gb2312'
+    with open('html' + os.sep + cityLink.split('/')[-1] + '.html', 'w', encoding='utf-8', newline='\n') as f:
+        f.write(resp.text)
+
+
+if __name__ == '__main__':
+    from pprint import pprint
+    province_link_list = get_province_link_list()
+    for province_link in province_link_list:
+        cityLinkList = get_city_link_list(province_link)
+        for cityLink in cityLinkList:
+            download_number_page(cityLink)
