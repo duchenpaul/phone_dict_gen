@@ -110,7 +110,7 @@ class SqliteDB():
         if not tableName:
             tableName = toolkit_file.get_basename(csvFile)
 
-        with open(csvFile, 'r') as f:
+        with open(csvFile, 'r', encoding='utf-8') as f:
             reader = csv.reader(f, delimiter=delimiter)
             header = next(reader)
         header = list(map(lambda x: x.strip().replace(' ', '_'), header))
@@ -155,10 +155,9 @@ if __name__ == '__main__':
 
     query_sql = r'''SELECT DISTINCT province, priority FROM number_region order by priority desc;'''
     with SqliteDB(DB_FILE) as sqlitedb:
-        # print(sqlitedb.query('select * from Status_sheet'))
-        # sqlitedb.execute(create_view)
-        sqlitedb.execute(update_sql)
-        for province, priority in sqlitedb.query(query_sql):
-            print('{}|{}'.format(province, priority))
-        # sqlitedb.executemany(batch_insert, tupleList)
-        # sqlitedb.execute(drop_table)
+        # sqlitedb.execute(update_sql)
+        # for province, priority in sqlitedb.query(query_sql):
+            # print('{}|{}'.format(province, priority))
+        csvFile = 'province_new.list'
+        sqlitedb.load_csv(csvFile, tableName='province_priority', delimiter=',', full_refresh=True)
+
