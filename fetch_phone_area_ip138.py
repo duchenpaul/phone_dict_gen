@@ -1,3 +1,6 @@
+import logging_manager
+
+import logging
 import os
 import requests
 
@@ -13,8 +16,11 @@ headers = {
     'Cookie': 'ASPSESSIONIDSAQADCSR=GHCJHCODOCHPGMBPEPAHDEDH',
 }
 
+
+@logging_manager.logging_to_file
 def get_phone_area(number):
     number = str(number)
+    logging.info('Getting {}'.format(number))
     url = 'http://m.ip138.com/mobile.asp?mobile=' + number
     resp = requests.get(url, headers=headers)
     # resp.encoding = 'gb2312'
@@ -25,4 +31,5 @@ def get_phone_area(number):
 
 if __name__ == '__main__':
     for number in range(1000000, 1000000 * 2):
+    # for number in range(1000000, 1000002):
         get_phone_area(number)

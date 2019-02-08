@@ -17,6 +17,7 @@
 **/*.log
 **/*.dict
 **/*.7z
+html*/
 
 *test*
 config.ini
