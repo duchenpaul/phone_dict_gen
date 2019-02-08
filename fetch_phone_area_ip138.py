@@ -14,9 +14,10 @@ headers = {
 }
 
 def get_phone_area(number):
+    number = str(number)
     url = 'http://m.ip138.com/mobile.asp?mobile=' + number
     resp = requests.get(url, headers=headers)
-    resp.encoding = 'gb2312'
+    # resp.encoding = 'gb2312'
     # print(resp.text)
     with open('html_138' + os.sep + number + '.html', 'w', encoding='utf-8', newline='\n') as f:
         f.write(resp.text)
