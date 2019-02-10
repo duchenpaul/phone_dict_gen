@@ -38,12 +38,21 @@ def extract_info(html):
         tmp_dict[row[0]] = row[1]
 
     # print(tmp_dict)
-    infoDict['phone_number_prefix'] = int(tmp_dict['手机号码段'].replace('*', ''))
-    infoDict['province'] = tmp_dict['卡号归属地'].split(' ')[0]
-    infoDict['city'] = tmp_dict['卡号归属地'].split(' ')[1]
-    infoDict['card_type'] = tmp_dict['卡 类 型']
-    infoDict['area_code'] = tmp_dict['区 号']
-    infoDict['postal_code'] = tmp_dict['邮 编']
+    try:
+        infoDict['phone_number_prefix'] = int(tmp_dict['手机号码段'].replace('*', ''))
+        infoDict['province'] = tmp_dict['卡号归属地'].split(' ')[0]
+        infoDict['city'] = tmp_dict['卡号归属地'].split(' ')[1]
+        infoDict['card_type'] = tmp_dict['卡 类 型']
+        infoDict['area_code'] = tmp_dict['区 号']
+        infoDict['postal_code'] = tmp_dict['邮 编']
+    except Exception as e:
+        logging.error('Error when loading {}'.format(html))
+        logging.error('Data {}'.format(tmp_dict))
+        raise
+    else:
+        pass
+    finally:
+        pass
     return infoDict
 
 
@@ -67,7 +76,7 @@ def load_table_in_chunks():
 
     fileList = toolkit_file.get_file_list(SOURCE_FOLDER)
 
-    chunk_size = 100
+    chunk_size = 100000
     start_number = 1
     file_count = len(toolkit_file.get_file_list(SOURCE_FOLDER))
     logging.info('Read {} files'.format(file_count))
