@@ -71,10 +71,12 @@ def extract_info(html):
 def batch_load_to_table(fileList):
     # fileList = toolkit_file.get_file_list(SOURCE_FOLDER)
     infoDictList = []
+    logging.info('Read files')
     for file in fileList:
         infoDictList.append(extract_info(file))
 
     df = pd.DataFrame(infoDictList)
+    logging.info('Load to table')
     with toolkit_sqlite.SqliteDB(DB_FILE) as sqlitedb:
         df.to_sql(tableName, con=sqlitedb.conn,
                   index=False, if_exists='append')
