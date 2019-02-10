@@ -51,7 +51,7 @@ def extract_info(html):
         infoDict['area_code'] = tmp_dict['区 号']
         infoDict['postal_code'] = tmp_dict['邮 编']
     except Exception as e:
-        logging.error(tmp_dict['卡号归属地'])
+        logging.error(type(tmp_dict['卡号归属地']))
         logging.error('Error when loading {}'.format(html))
         logging.error('Data {}'.format(tmp_dict))
         raise
@@ -77,6 +77,7 @@ def batch_load_to_table(fileList):
 
 # @logging_manager.logging_to_file
 def load_table_in_chunks():
+    logging.info('Purge table {}'.format(tableName))
     with toolkit_sqlite.SqliteDB(DB_FILE) as sqlitedb:
         sqlitedb.execute('DELETE FROM {}'.format(tableName))
 
