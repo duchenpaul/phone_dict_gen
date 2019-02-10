@@ -39,9 +39,14 @@ def extract_info(html):
 
     # print(tmp_dict)
     try:
-        if isinstance(tmp_dict['卡号归属地'], str) and len(tmp_dict['卡号归属地'].split(' ')) == 2:
+        if isinstance(tmp_dict['卡号归属地'], float):
+            # 卡号归属地 is empty
+            province, city = None, None
+        elif isinstance(tmp_dict['卡号归属地'], str) and len(tmp_dict['卡号归属地'].split(' ')) == 2:
+            # 卡号归属地 is good, 江苏 南京
             province, city = tmp_dict['卡号归属地'].split(' ')[0], tmp_dict['卡号归属地'].split(' ')[1]
         elif isinstance(tmp_dict['卡号归属地'], str) and len(tmp_dict['卡号归属地'].split(' ')) == 1:
+            # 卡号归属地 only contains province
             province, city = tmp_dict['卡号归属地'].split(' ')[0], None
 
         infoDict['phone_number_prefix'] = int(tmp_dict['手机号码段'].replace('*', ''))
