@@ -39,9 +39,9 @@ def extract_info(html):
 
     # print(tmp_dict)
     try:
-        if len(tmp_dict['卡号归属地'].split(' ')) == 2:
+        if isinstance(tmp_dict['卡号归属地'], str) and len(tmp_dict['卡号归属地'].split(' ')) == 2:
             province, city = tmp_dict['卡号归属地'].split(' ')[0], tmp_dict['卡号归属地'].split(' ')[1]
-        else:
+        elif isinstance(tmp_dict['卡号归属地'], str) and len(tmp_dict['卡号归属地'].split(' ')) == 1:
             province, city = tmp_dict['卡号归属地'].split(' ')[0], None
 
         infoDict['phone_number_prefix'] = int(tmp_dict['手机号码段'].replace('*', ''))
@@ -51,6 +51,7 @@ def extract_info(html):
         infoDict['area_code'] = tmp_dict['区 号']
         infoDict['postal_code'] = tmp_dict['邮 编']
     except Exception as e:
+        logging.error(tmp_dict['卡号归属地'])
         logging.error('Error when loading {}'.format(html))
         logging.error('Data {}'.format(tmp_dict))
         raise
