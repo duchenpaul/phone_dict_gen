@@ -16,7 +16,7 @@ log_basename = os.path.splitext(os.path.basename(caller_filename))[0]
 logFileName = '{}_{}.log'.format(log_basename, datetime.now().strftime('%F'))
 
 scriptName = os.path.basename(sys.argv[0].replace('.py', ''))
-LOG_FORMAT = '[%(asctime)s] %(levelname)8s - %(name)s - %(message)s'
+LOG_FORMAT = '[%(asctime)s] %(levelname)8s - %(name)s: %(message)s'
 # LOG_FORMAT = logging.Formatter(LOG_FORMAT, '%Y-%m-%d %H:%M:%S')
 logging.basicConfig(handlers=[logging.FileHandler(logFileName, 'w', 'utf-8')],
                     level=logging.INFO,
