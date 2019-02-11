@@ -1,5 +1,5 @@
 --
--- File generated with SQLiteStudio v3.1.1 on Fri Feb 8 09:54:28 2019
+-- File generated with SQLiteStudio v3.1.1 on Mon Feb 11 18:47:27 2019
 --
 -- Text encoding used: UTF-8
 --
@@ -44,6 +44,29 @@ INSERT INTO province_priority (province, priority) VALUES ('西藏', 0);
 INSERT INTO province_priority (province, priority) VALUES ('宁夏', 0);
 INSERT INTO province_priority (province, priority) VALUES ('新疆', 0);
 
+
+
+-- Table: number_region
+CREATE TABLE number_region (
+    city             TEXT,
+    phone_num_region TEXT,
+    province         TEXT
+);
+
+
+-- Table: phone_area_ip138
+CREATE TABLE phone_area_ip138 (
+    phone_number_prefix INTEGER,
+    area_code           TEXT,
+    card_type           TEXT,
+    city                TEXT,
+    postal_code         TEXT,
+    province            TEXT
+);
+
+
+
+
 -- View: vw_numer_region_priority
 CREATE VIEW vw_numer_region_priority AS
     SELECT num.phone_num_region,
@@ -53,6 +76,17 @@ CREATE VIEW vw_numer_region_priority AS
       FROM number_region num
            JOIN
            province_priority p ON num.province = p.province;
+
+
+-- View: vw_phone_area_in_use
+CREATE VIEW vw_phone_area_in_use AS
+    SELECT *
+      FROM phone_area_ip138
+     WHERE area_code IS NOT NULL OR 
+           card_type IS NOT NULL OR 
+           city IS NOT NULL OR 
+           postal_code IS NOT NULL OR 
+           province IS NOT NULL;
 
 
 COMMIT TRANSACTION;
