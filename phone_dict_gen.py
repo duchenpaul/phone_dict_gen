@@ -3,14 +3,15 @@ import toolkit_sqlite
 
 DB_FILE = 'phone_region.db'
 
-# query_sql = 'SELECT phone_num_region FROM vw_numer_region_priority where priority <> 0 order by priority desc;'
-query_sql = '''SELECT phone_number_prefix
-  FROM phone_area_ip138
-       JOIN
-       province_priority ON phone_area_ip138.province = province_priority.province
- WHERE priority <> 0
- ORDER BY priority DESC;
-'''
+query_sql = 'SELECT phone_num_region FROM vw_numer_region_priority where priority <> 0 order by priority desc;'
+# query_sql = '''SELECT phone_number_prefix
+#   FROM phone_area_ip138
+#        JOIN
+#        province_priority ON phone_area_ip138.province = province_priority.province
+#  WHERE priority <> 0
+#  ORDER BY priority DESC;
+# '''
+query_sql = r'''SELECT phone_number_prefix FROM phone_area_ip138 where city like '%南京%' ORDER BY phone_number_prefix'''
 
 @logging_manager.logging_to_file
 def query_phone_num_region():
@@ -21,7 +22,8 @@ def query_phone_num_region():
 
 @logging_manager.logging_to_file
 def generate_dict(phone_num_region):
-    with open('phone.dict', 'w') as f:
+    dict_file = 'nanjiing_phone.dict'
+    with open(dict_file, 'w') as f:
         f.write('')
         for i in phone_num_region:
             for j in range(10000):
