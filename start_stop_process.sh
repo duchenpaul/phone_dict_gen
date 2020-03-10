@@ -11,9 +11,11 @@ if [ $# -ne 1 ]; then
 fi
 
 if [ $1 = 'stop' ]; then
+	echo "Starting process"
     kill -STOP ${processID}
 fi
 
 if [ $1 = 'start' ]; then
+	echo "Stopping process"
     kill -CONT ${processID}
 fi
