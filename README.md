@@ -40,5 +40,5 @@ caps=BC-5F-F6-B2-6B-02_handshake.cap
 aircrack-ng  -J wpahash ${caps}
 
 # Crack
-aircrack-ng -l wpakey -w ~/phone_dict_gen/phone.dict ${caps}
+aircrack-ng -l wpakey.txt -w ~/phone_dict_gen/phone.dict ${caps}
 ```
