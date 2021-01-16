@@ -11,7 +11,6 @@ Set priority in table `province_priority` to adjust the sequence of the province
 ```bash
 # Enable monitor mode
 sudo airmon-ng start wlan0
-```
 
 # Sniff
 # Sniff wifi, -c CHANNEL
