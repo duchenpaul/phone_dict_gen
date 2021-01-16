@@ -10,7 +10,6 @@ Set priority in table `province_priority` to adjust the sequence of the province
 ## Crack cmd
 ```bash
 # Enable monitor mode
-```bash
 sudo airmon-ng start wlan0
 ```
 
