@@ -1,0 +1,13 @@
+version: "3"
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: alpine
+    container_name: phone_dict_gen
+    hostname: phone_dict_gen
+    volumes:
+      - ./temp:/app/temp
+      - ./logs:/app/logs
+    # restart: unless-stopped

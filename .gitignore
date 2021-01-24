@@ -25,3 +25,4 @@ config.ini
 html/*
 temp/
 index.html
+!Dockerfile
