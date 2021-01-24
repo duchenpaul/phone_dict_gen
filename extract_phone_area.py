@@ -54,6 +54,7 @@ def get_web_page(url):
     return resp.text
 
 
+@logging_manager.logging_to_file
 def fetch_vendor_code_list():
     """Fetch all 3 digits code
 
@@ -68,9 +69,6 @@ def fetch_vendor_code_list():
     webpage = get_web_page(telecom_vendor_link)
     dump_webpage('手机号段', webpage)
 
-    with open(os.path.join(temp_dir, 'temp.html'), 'r', encoding='utf-8', errors='ignore') as f:
-        webpage = f.read()
-
     soup = BeautifulSoup(webpage, 'lxml')
     vendor_code_selector = '#mw-content-text > ul > li > a:nth-child(1)'
     vendor_code_list = soup.select(vendor_code_selector)
@@ -79,6 +77,7 @@ def fetch_vendor_code_list():
     return vendor_code_list
 
 
+@logging_manager.logging_to_file
 def batch_fetch_page(fetch_list):
     '''Download all vender code page
     '''
@@ -93,6 +92,7 @@ def batch_fetch_page(fetch_list):
     logging.info('batch fetch page done.')
 
 
+@logging_manager.logging_to_file
 def extract_vendor_region_link(vendor_code):
     with open(os.path.join(temp_dir, '{}.html'.format(vendor_code)), 'r', encoding='utf-8', errors='ignore') as f:
         webpage = f.read()
