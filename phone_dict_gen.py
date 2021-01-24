@@ -22,7 +22,7 @@ def query_phone_num_region():
 
 @logging_manager.logging_to_file
 def generate_dict(phone_num_region):
-    dict_file = 'nanjing_phone.dict'
+    dict_file = 'phone.dict'
     with open(dict_file, 'w') as f:
         f.write('')
         for i in phone_num_region:
