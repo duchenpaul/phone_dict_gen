@@ -36,6 +36,8 @@ def generate_dict_8_digits():
     digits = 8
 
     add_number = r'''
+    66668888
+    88888888
     1234567890
     123456789
     '''
