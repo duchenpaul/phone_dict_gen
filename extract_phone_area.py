@@ -129,14 +129,6 @@ def extract_vendor_region_code_list(vendor_region_index):
     finally:
         pass
 
-
-def trim_empty_line():
-    with open(phone_region_list_csv, 'rw') as file:
-        for line in file:
-            if not line.isspace():
-                file.write(line)
-
-
 if __name__ == '__main__':
     initialize_csv()
     vendor_code_list = fetch_vendor_code_list()
@@ -146,9 +138,6 @@ if __name__ == '__main__':
     for vendor_code in vendor_code_list:
         vendor_region_index_list = extract_vendor_region_link(vendor_code)
         # vendor_region_index_list = vendor_region_index_list[:3]
-
-    batch_fetch_page(vendor_region_index_list)
-    for vendor_region_index in vendor_region_index_list:
-        extract_vendor_region_code_list(vendor_region_index)
-
-    trim_empty_line()
+        batch_fetch_page(vendor_region_index_list)
+        for vendor_region_index in vendor_region_index_list:
+            extract_vendor_region_code_list(vendor_region_index)
