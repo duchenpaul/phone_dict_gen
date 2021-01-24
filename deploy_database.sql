@@ -54,21 +54,8 @@ CREATE TABLE number_region (
 );
 
 
--- Table: phone_area_ip138
-CREATE TABLE phone_area_ip138 (
-    phone_number_prefix INTEGER,
-    area_code           TEXT,
-    card_type           TEXT,
-    city                TEXT,
-    postal_code         TEXT,
-    province            TEXT
-);
-
-
-
-
 -- View: vw_numer_region_priority
-CREATE VIEW vw_numer_region_priority AS
+CREATE VIEW vw_number_region_priority AS
     SELECT num.phone_num_region,
            num.city,
            num.province,
@@ -76,17 +63,6 @@ CREATE VIEW vw_numer_region_priority AS
       FROM number_region num
            JOIN
            province_priority p ON num.province = p.province;
-
-
--- View: vw_phone_area_in_use
-CREATE VIEW vw_phone_area_in_use AS
-    SELECT *
-      FROM phone_area_ip138
-     WHERE area_code IS NOT NULL OR 
-           card_type IS NOT NULL OR 
-           city IS NOT NULL OR 
-           postal_code IS NOT NULL OR 
-           province IS NOT NULL;
 
 
 COMMIT TRANSACTION;
