@@ -6,6 +6,6 @@ services:
       dockerfile: Dockerfile
     # container_name: phone_dict_gen
     volumes:
-      - ./temp:/app/temp
-      - ./logs:/app/logs
+      - /home/chenny/docker/phone_dict_gen/temp:/app/temp
+      - /home/chenny/docker/phone_dict_gen/logs:/app/logs
     # restart: unless-stopped

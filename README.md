@@ -12,5 +12,5 @@ Set priority in table `province_priority` to adjust the sequence of the province
 Use docker to generate phone dict
 ```
 git pull && docker-compose build && docker image prune -f && docker container prune -f
-docker run -d --name phone_dict_gen phone_dict_gen
+docker run -d --name phone_dict_gen phone_dict_gen_app
 ```
