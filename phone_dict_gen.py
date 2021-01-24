@@ -11,7 +11,7 @@ query_sql = 'SELECT phone_num_region FROM vw_numer_region_priority where priorit
 #  WHERE priority <> 0
 #  ORDER BY priority DESC;
 # '''
-query_sql = r'''SELECT phone_number_prefix FROM phone_area_ip138 where city like '%南京%' ORDER BY phone_number_prefix'''
+# query_sql = r'''SELECT phone_number_prefix FROM phone_area_ip138 where city like '%南京%' ORDER BY phone_number_prefix'''
 
 @logging_manager.logging_to_file
 def query_phone_num_region():
