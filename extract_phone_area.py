@@ -81,6 +81,7 @@ def fetch_vendor_code_list():
 def batch_fetch_page(fetch_list):
     '''Download all vender code page
     '''
+    fetch_list.sort()
     logging.info("Get fetch list:")
     logging.info(fetch_list)
     for vendor_code in fetch_list:
@@ -88,7 +89,7 @@ def batch_fetch_page(fetch_list):
         logging.info('Fetch web page: ' + phone_code_link)
         webpage = get_web_page(phone_code_link)
         dump_webpage(vendor_code, webpage)
-        time.sleep(5)
+        time.sleep(50)
     logging.info('batch fetch page done.')
 
 
@@ -142,7 +143,7 @@ def trim_empty_lines(file):
         # We got something, save it
         else:
             new_contents.append(line)
-            
+
     with open(file, 'r') as f:
         f.write(file)
 
@@ -161,3 +162,4 @@ if __name__ == '__main__':
             extract_vendor_region_code_list(vendor_region_index)
 
     # trim_empty_lines(phone_region_list_csv)
+    logging.info('Finished')
