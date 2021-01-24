@@ -2,7 +2,7 @@ FROM alpine
 
 ENV TZ "Asia/Shanghai"
 
-RUN mkdir /app
+RUN mkdir -p /app
 WORKDIR /app
 COPY ./requirements.txt /app/
 
