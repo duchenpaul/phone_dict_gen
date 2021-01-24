@@ -1,6 +1,9 @@
 # import functools
 import logging
+from logging.handlers import TimedRotatingFileHandler
+
 from datetime import datetime
+import time
 import os
 import sys
 
@@ -9,16 +12,37 @@ import inspect
 
 def now(): return datetime.now().strftime('%F %X')
 
+
+logDir = 'logs'
+
+# normal/TimedRotating Choose logging Handler between straight Handler and TimedRotatingHandler
+logging_type = 'normal'
+
 frame = inspect.stack()[-1]
 caller_filename = frame[0].f_code.co_filename
 log_basename = os.path.splitext(os.path.basename(caller_filename))[0]
 
-logFileName = '{}_{}.log'.format(log_basename, datetime.now().strftime('%F'))
+try:
+    os.mkdir(logDir)
+except Exception as e:
+    pass
+
 
 scriptName = os.path.basename(sys.argv[0].replace('.py', ''))
-LOG_FORMAT = '[%(asctime)s] %(levelname)8s - %(name)s: %(message)s'
+LOG_FORMAT = '[%(asctime)s] %(levelname)8s - %(name)s - %(message)s'
 # LOG_FORMAT = logging.Formatter(LOG_FORMAT, '%Y-%m-%d %H:%M:%S')
-logging.basicConfig(handlers=[logging.FileHandler(logFileName, 'w', 'utf-8')],
+
+if logging_type == 'TimedRotating':
+    logFileName = logDir + os.sep + \
+    '{}.log'.format(log_basename)
+    Handler = TimedRotatingFileHandler(logFileName, when="midnight", interval=1, encoding='utf-8', backupCount=30)
+else:
+    logFileName = logDir + os.sep + \
+        '{}_{}.log'.format(log_basename, datetime.now().strftime('%F'))
+    Handler = logging.FileHandler(logFileName, 'a', 'utf-8')
+
+
+logging.basicConfig(handlers=[Handler],
                     level=logging.INFO,
                     format=LOG_FORMAT,
                     datefmt='%F %X',
@@ -50,7 +74,7 @@ def logging_to_file(func):
     def wrapper(*args, **kwargs):
         # logger = create_logger()
         try:
-            t1 = datetime.now().timestamp()
+            t1 = time.time()
             logger.info('{} starts on {}'.format(func.__name__, now()))
 
             func_args = inspect.signature(func).bind(*args, **kwargs).arguments
@@ -70,13 +94,15 @@ def logging_to_file(func):
         else:
             return x
         finally:
-            t2 = datetime.now().timestamp()
-            logger.info('{} ends on {}, duration: {}s'.format(
+            t2 = time.time()
+            logger.info('{} ends on {}, duration: {}s\n'.format(
                 func.__name__, now(), round(t2 - t1, 3)))
     return wrapper
 
 
 if __name__ == '__main__':
-    log_msg('sdf')
+    for x in range(100):
+        log_msg('new is {}'.format(now()))
+        time.sleep(5)
     # print(dir(logging))
     # print(logging.getLevelName('d'))
