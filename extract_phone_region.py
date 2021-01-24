@@ -89,7 +89,7 @@ def batch_fetch_page(fetch_list):
         logging.info('Fetch web page: ' + phone_code_link)
         webpage = get_web_page(phone_code_link)
         dump_webpage(vendor_code, webpage)
-        time.sleep(50)
+        time.sleep(30)
     logging.info('batch fetch page done.')
 
 
