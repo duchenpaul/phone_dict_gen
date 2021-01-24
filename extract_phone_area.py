@@ -1,7 +1,8 @@
 import logging_manager
 import logging
 import os
-
+import time
+import csv
 
 import requests
 from bs4 import BeautifulSoup
@@ -18,18 +19,43 @@ try:
 except Exception as e:
     pass
 
-proxies = {"http": "socks5://localhost:1080", }
+
+proxies = {"http": "socks5://localhost:1083", }
+proxies = None
+
+phone_region_list_csv = os.path.join(temp_dir, 'phone_region_list.csv')
+csv_header = {"phone_num_region": "", "city": "", "province": ""}
 
 root_url = 'https://www.chahaoba.com/'
 headers = {
-    'Host': 'www.chahaoba.com:443', 
-    'Proxy-Connection': 'keep-alive', 
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36', 
+    'Host': 'www.chahaoba.com:443',
+    'Proxy-Connection': 'keep-alive',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36',
 }
 
 
+def initialize_csv():
+    with open(phone_region_list_csv, 'w') as f:
+        f.write('')
+        csv_writer = csv.DictWriter(f, csv_header.keys())
+        csv_writer.writeheader()
+
+
+def dump_webpage(info, webpage):
+    with open(os.path.join(temp_dir, '{}.html'.format(info)), 'w', encoding='utf-8', errors='ignore') as f:
+        f.write(webpage)
+
+
+def get_web_page(url):
+    allow_redirects = True
+    resp = requests.get(url, headers=headers,
+                            allow_redirects=allow_redirects, proxies=proxies, timeout=30, verify=False)
+    resp.encoding = 'utf-8'
+    return resp.text
+
+
 def fetch_vendor_code_list():
-    """Fetch 3 digits code list of a telecom vendor
+    """Fetch all 3 digits code
 
     Args:
         None
@@ -39,19 +65,90 @@ def fetch_vendor_code_list():
 
     """
     telecom_vendor_link = root_url + '手机号段'
-    allow_redirects = True
-    print(telecom_vendor_link)
-    resp = requests.get(telecom_vendor_link, headers=headers,
-                            allow_redirects=allow_redirects, proxies=proxies, timeout=30, verify=False)
-    # resp.encoding = 'gb2312'
-    # print(resp.text)
-    with open(os.path.join(temp_dir, 'temp.html', 'w')) as f:
-        f.write(resp.text)
-    soup = BeautifulSoup(resp.text, 'lxml')
-    code_area_selector = '#mw-content-text > ul:nth-child(12) > li:nth-child(1) > a:nth-child(1)'
-    vendor_code_list = soup.select(code_area_selector)
+    webpage = get_web_page(telecom_vendor_link)
+    dump_webpage('手机号段', webpage)
+
+    with open(os.path.join(temp_dir, 'temp.html'), 'r', encoding='utf-8', errors='ignore') as f:
+        webpage = f.read()
+
+    soup = BeautifulSoup(webpage, 'lxml')
+    vendor_code_selector = '#mw-content-text > ul > li > a:nth-child(1)'
+    vendor_code_list = soup.select(vendor_code_selector)
+    vendor_code_list = [x.text for x in vendor_code_list]
+    vendor_code_list = list(set(vendor_code_list))
+    return vendor_code_list
+
+
+def batch_fetch_page(fetch_list):
+    '''Download all vender code page
+    '''
+    logging.info("Get fetch list:")
+    logging.info(fetch_list)
+    for vendor_code in fetch_list:
+        phone_code_link = root_url + vendor_code
+        logging.info('Fetch web page: ' + phone_code_link)
+        webpage = get_web_page(phone_code_link)
+        dump_webpage(vendor_code, webpage)
+        time.sleep(5)
+    logging.info('batch fetch page done.')
+
+
+def extract_vendor_region_link(vendor_code):
+    with open(os.path.join(temp_dir, '{}.html'.format(vendor_code)), 'r', encoding='utf-8', errors='ignore') as f:
+        webpage = f.read()
+    soup = BeautifulSoup(webpage, 'lxml')
+    vendor_region_index_selector = '#mw-content-text > h3'
+    vendor_region_index_list = soup.select(vendor_region_index_selector)
+    vendor_region_index_list = [x.text for x in vendor_region_index_list]
+    return vendor_region_index_list
+
+
+def extract_vendor_region_code_list(vendor_region_index):
+    try:
+        html_file = os.path.join(temp_dir, '{}.html'.format(vendor_region_index))
+        with open(html_file, 'r', encoding='utf-8', errors='ignore') as f:
+            webpage = f.read()
+        soup = BeautifulSoup(webpage, 'lxml')
+        vendor_region_code_selector = '#myarticle > ol > li'
+        vendor_region_code_list = soup.select(vendor_region_code_selector)
+        vendor_region_code_list = [x.text for x in vendor_region_code_list]
+        region = ''.join([i for i in vendor_region_index if not i.isdigit()])
+        vendor_region_code_dict_list = []
+        logging.info('Export to csv file')
+        logging.info('Region: {}'.format(region))
+        for vendor_region_code in vendor_region_code_list:
+            vendor_region_code_dict_list.append({"phone_num_region": vendor_region_code, "city": "", "province": region})
+        with open(phone_region_list_csv, 'a', newline='', encoding='utf-8', errors='ignore') as f:
+            csv_writer = csv.DictWriter(f, csv_header.keys())
+            csv_writer.writerows(vendor_region_code_dict_list)
+
+    except Exception as e:
+        logging.exception('Failed to fetch vendor_region_code_list for {}, check {}'.format(vendor_region_index, html_file))
+    else:
+        return vendor_region_code_list
+    finally:
+        pass
+
+
+def trim_empty_line():
+    with open(phone_region_list_csv, 'rw') as file:
+        for line in file:
+            if not line.isspace():
+                file.write(line)
 
 
 if __name__ == '__main__':
+    initialize_csv()
     vendor_code_list = fetch_vendor_code_list()
-    print(vendor_code_list)
+    # vendor_code_list = vendor_code_list[:3]
+    batch_fetch_page(vendor_code_list)
+
+    for vendor_code in vendor_code_list:
+        vendor_region_index_list = extract_vendor_region_link(vendor_code)
+        # vendor_region_index_list = vendor_region_index_list[:3]
+
+    batch_fetch_page(vendor_region_index_list)
+    for vendor_region_index in vendor_region_index_list:
+        extract_vendor_region_code_list(vendor_region_index)
+
+    trim_empty_line()

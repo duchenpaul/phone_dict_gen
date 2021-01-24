@@ -39,7 +39,7 @@ if logging_type == 'TimedRotating':
 else:
     logFileName = logDir + os.sep + \
         '{}_{}.log'.format(log_basename, datetime.now().strftime('%F'))
-    Handler = logging.FileHandler(logFileName, 'a', 'utf-8')
+    Handler = logging.FileHandler(logFileName, 'w', 'utf-8')
 
 
 logging.basicConfig(handlers=[Handler],
