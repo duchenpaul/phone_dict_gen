@@ -129,6 +129,24 @@ def extract_vendor_region_code_list(vendor_region_index):
     finally:
         pass
 
+
+def trim_empty_lines(file):
+    with open(file) as fd:
+        contents = fd.readlines()
+    new_contents = []
+    # Get rid of empty lines
+    for line in contents:
+        # Strip whitespace, should leave nothing if empty line was just "\n"
+        if not line.strip():
+            continue
+        # We got something, save it
+        else:
+            new_contents.append(line)
+            
+    with open(file, 'r') as f:
+        f.write(file)
+
+
 if __name__ == '__main__':
     initialize_csv()
     vendor_code_list = fetch_vendor_code_list()
@@ -141,3 +159,5 @@ if __name__ == '__main__':
         batch_fetch_page(vendor_region_index_list)
         for vendor_region_index in vendor_region_index_list:
             extract_vendor_region_code_list(vendor_region_index)
+
+    # trim_empty_lines(phone_region_list_csv)
