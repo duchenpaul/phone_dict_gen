@@ -20,8 +20,9 @@ except Exception as e:
     pass
 
 
-proxies = {"http": "socks5://localhost:1083", }
-proxies = None
+proxies = {"http": "socks5://192.168.2.211:7891", }
+# proxies = None
+sleep_sec = 60 * 60
 
 phone_region_list_csv = os.path.join(temp_dir, 'phone_region_list.csv')
 csv_header = {"phone_num_region": "", "city": "", "province": ""}
@@ -51,6 +52,12 @@ def get_web_page(url):
     resp = requests.get(url, headers=headers,
                             allow_redirects=allow_redirects, proxies=proxies, timeout=30, verify=False)
     resp.encoding = 'utf-8'
+
+    # Check if the crawler is detected
+    keyword = '抱歉，系统检测到您的访问过于密集，暂时进行了ip屏蔽'
+
+    if keyword in resp.text:
+        logging.info('crawler is detected, sleep {}s'.format(sleep_sec))
     return resp.text
 
 

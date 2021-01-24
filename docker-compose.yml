@@ -5,7 +5,6 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: phone_dict_gen
-    hostname: phone_dict_gen
     volumes:
       - ./temp:/app/temp
       - ./logs:/app/logs
