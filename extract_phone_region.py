@@ -22,6 +22,8 @@ except Exception as e:
 
 proxies = {"http": "socks5://192.168.2.211:7891", }
 # proxies = None
+
+# Sleep 1 hour if IP is banned
 sleep_sec = 60 * 60
 
 phone_region_list_csv = os.path.join(temp_dir, 'phone_region_list.csv')
@@ -58,6 +60,9 @@ def get_web_page(url):
 
     if keyword in resp.text:
         logging.info('crawler is detected, sleep {}s'.format(sleep_sec))
+        time.sleep(sleep_sec)
+        logging.info('Sleep time over, try again')
+        get_web_page(url)
     return resp.text
 
 
