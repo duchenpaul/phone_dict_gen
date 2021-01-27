@@ -32,10 +32,27 @@ csv_header = {"phone_num_region": "", "city": "", "province": ""}
 
 root_url = 'https://www.chahaoba.com/'
 headers = {
-    'Host': 'www.chahaoba.com:443',
-    'Proxy-Connection': 'keep-alive',
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.141 Safari/537.36',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9',
+    'Accept-Encoding': 'gzip, deflate, br',
+    'Accept-Language': 'en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7,zh-TW;q=0.6',
+    'Connection': 'keep-alive',
+    'Host': 'www.chahaoba.com',
+    'Referer': 'https://www.chahaoba.com/',
+    'sec-ch-ua': '"Chromium";v="88", "Google Chrome";v="88", ";Not A Brand";v="99"',
+    'sec-ch-ua-mobile': '?0',
+    'Sec-Fetch-Dest': 'document',
+    'Sec-Fetch-Mode': 'navigate',
+    'Sec-Fetch-Site': 'same-origin',
+    'Sec-Fetch-User': '?1',
+    'Upgrade-Insecure-Requests': '1',
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.104 Safari/537.36',
 }
+
+
+def check_request_ip():
+    url = 'https://api.ipify.org?format=json'
+    resp = requests.get(url, proxies=proxies, timeout=30, verify=False)
+    logging.info(resp.text)
 
 
 def initialize_csv():
@@ -162,6 +179,7 @@ def trim_empty_lines(file):
 
 
 if __name__ == '__main__':
+    check_request_ip()
     initialize_csv()
     vendor_code_list = fetch_vendor_code_list()
     # vendor_code_list = vendor_code_list[:3]
