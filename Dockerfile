@@ -12,7 +12,7 @@ RUN echo "https://mirror.tuna.tsinghua.edu.cn/alpine/latest-stable/community" >>
 
 
 RUN apk update \
-    && apk add git openssh bash bash-completion curl wget unzip \
+    && apk add tzdata git openssh bash bash-completion curl wget unzip \
     && apk add --virtual build-deps gcc g++ python3-dev musl-dev \
     && apk add --update --no-cache libxslt-dev
 
