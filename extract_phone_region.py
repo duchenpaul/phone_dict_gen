@@ -21,8 +21,8 @@ try:
 except Exception as e:
     pass
 
-
-proxies = {"http": "socks5://192.168.2.211:7891", }
+proxies = {"http": "socks5://192.168.2.216:1081", }
+# proxies = {"http": "socks5://192.168.2.211:7891", }
 # proxies = {"http": "http://192.168.2.211:7890", }
 # proxies = None
 
