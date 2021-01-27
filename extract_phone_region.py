@@ -7,6 +7,8 @@ import csv
 import requests
 from bs4 import BeautifulSoup
 
+from random import randint
+
 try:
     from urllib.parse import quote_plus
 except ImportError:
@@ -68,6 +70,9 @@ def dump_webpage(info, webpage):
 
 
 def get_web_page(url):
+    rand_ip = '2.{}.{}.{}'.format(randint(2, 240), randint(2, 240), randint(2, 240))
+    headers['X-Forwarded-For'] = rand_ip
+    headers['client-IP'] = rand_ip
     allow_redirects = True
     resp = requests.get(url, headers=headers,
                             allow_redirects=allow_redirects, proxies=proxies, timeout=30, verify=False)

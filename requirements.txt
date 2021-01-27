@@ -4,3 +4,4 @@ pandas
 python_dateutil
 pytz
 lxml
+pysocks
