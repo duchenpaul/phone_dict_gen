@@ -22,8 +22,8 @@ except Exception as e:
     pass
 
 
-# proxies = {"http": "socks5://192.168.2.211:7891", }
-proxies = {"http": "http://192.168.2.211:7890", }
+proxies = {"http": "socks5://192.168.2.211:7891", }
+# proxies = {"http": "http://192.168.2.211:7890", }
 # proxies = None
 
 # Sleep 1 hour if IP is banned
@@ -124,7 +124,7 @@ def batch_fetch_page(fetch_list):
         logging.info('Fetch web page: ' + phone_code_link)
         webpage = get_web_page(phone_code_link)
         dump_webpage(vendor_code, webpage)
-        time.sleep(30)
+        time.sleep(randint(2, 15))
     logging.info('batch fetch page done.')
 
 
