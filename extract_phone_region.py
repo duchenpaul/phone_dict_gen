@@ -24,7 +24,7 @@ proxies = {"http": "socks5://192.168.2.211:7891", }
 # proxies = None
 
 # Sleep 1 hour if IP is banned
-sleep_sec = 60 * 60
+sleep_sec = 60 * 60 * 6
 
 phone_region_list_csv = os.path.join(temp_dir, 'phone_region_list.csv')
 csv_header = {"phone_num_region": "", "city": "", "province": ""}
