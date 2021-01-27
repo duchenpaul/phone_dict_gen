@@ -4,8 +4,6 @@ ENV TZ "Asia/Shanghai"
 
 RUN mkdir -p /app
 WORKDIR /app
-COPY ./requirements.txt /app/
-
 
 RUN echo "https://mirror.tuna.tsinghua.edu.cn/alpine/latest-stable/main" > /etc/apk/repositories
 RUN echo "https://mirror.tuna.tsinghua.edu.cn/alpine/latest-stable/community" >> /etc/apk/repositories
@@ -29,6 +27,7 @@ RUN echo "**** install Python ****" && \
 
 RUN rm -rf /var/cache/apk/*
 
+COPY ./requirements.txt /app/
 RUN pip3 install -i http://pypi.douban.com/simple --trusted-host pypi.douban.com -r requirements.txt
 
 RUN mkdir -p /app/temp
