@@ -74,6 +74,7 @@ def get_web_page(url):
     headers['X-Forwarded-For'] = rand_ip
     headers['client-IP'] = rand_ip
     allow_redirects = True
+    logging.info('Request {} with IP: {}'.format(url, rand_ip))
     resp = requests.get(url, headers=headers,
                             allow_redirects=allow_redirects, proxies=proxies, timeout=30, verify=False)
     resp.encoding = 'utf-8'
