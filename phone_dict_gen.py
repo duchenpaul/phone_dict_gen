@@ -13,9 +13,10 @@ query_sql = 'SELECT phone_num_region FROM vw_numer_region_priority where priorit
 #  ORDER BY priority DESC;
 # '''
 query_sql = r'''SELECT phone_number_prefix FROM phone_area 
-                -- where city like '%南京%' 
+                -- where city like '%南京%'
+                where province in ('江苏')
                 ORDER BY phone_number_prefix;'''
-output_dict_file = 'phone.dict'
+output_dict_file = 'phone_jiangsu.dict'
 
 
 @logging_manager.logging_to_file
