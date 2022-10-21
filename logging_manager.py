@@ -9,16 +9,18 @@ import inspect
 
 def now(): return datetime.now().strftime('%F %X')
 
+
 frame = inspect.stack()[-1]
 caller_filename = frame[0].f_code.co_filename
 log_basename = os.path.splitext(os.path.basename(caller_filename))[0]
 
-logFileName = '{}_{}.log'.format(log_basename, datetime.now().strftime('%F'))
+log_file_name = '{}_{}.log'.format(log_basename, datetime.now().strftime('%F'))
+log_file = os.path.join("logs", log_file_name)
 
 scriptName = os.path.basename(sys.argv[0].replace('.py', ''))
 LOG_FORMAT = '[%(asctime)s] %(levelname)8s - %(name)s: %(message)s'
 # LOG_FORMAT = logging.Formatter(LOG_FORMAT, '%Y-%m-%d %H:%M:%S')
-logging.basicConfig(handlers=[logging.FileHandler(logFileName, 'w', 'utf-8')],
+logging.basicConfig(handlers=[logging.FileHandler(log_file, 'w', 'utf-8')],
                     level=logging.INFO,
                     format=LOG_FORMAT,
                     datefmt='%F %X',
