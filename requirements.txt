@@ -1,0 +1,7 @@
+requests
+beautifulsoup4
+pandas
+python_dateutil
+pytz
+lxml
+pysocks
