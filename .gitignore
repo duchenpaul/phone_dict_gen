@@ -24,3 +24,9 @@ config.ini
 html/*
 index.html
 temp/*
+*.cap
+*.hc22000
+*.poy
+.DS_Store
+hash.txt
+wordlist.txt
