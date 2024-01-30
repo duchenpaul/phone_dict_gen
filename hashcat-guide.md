@@ -21,8 +21,8 @@ dict=/Users/chend/Desktop/phone_dict_gen/phone.dict
 Next we need to extract the required data and convert it to a format Hashcat can understand
 ```bash
 cap=9C-7F-81-F7-58-73_handshake.cap
-cap_name=$(basename ${caps} .cap)
-hcxpcapngtool ${caps} -o ${cap_name}_hash.txt
+cap_name=$(basename ${cap} .cap)
+hcxpcapngtool -o ${cap_name}.hc22000 ${cap_name}.cap 
 ```
 Output should be like:
 ```
@@ -56,10 +56,14 @@ That makes it hard to recover the PSK.
 
 ## Start Hashcat
 ```bash
-# Windows
-hashcat.exe -m 22000 -w 3 .\toCrack\wifiHashes.txt .\passwordLists\hashkiller-dict.txt
+# Windows in git cmd
+cap_name=24-69-8E-C1-82-37_handshake
+./hashcat.exe -m 22000 -w 3 --hwmon-disable \
+/c/Users/duche/Desktop/project/phone_dict_gen/${cap_name}.hc22000 \
+/c/Users/duche/Desktop/project/phone_dict_gen/phone.dict \
+-o ${cap_name}_key.txt --potfile-path ${cap_name}.potfile
 
-# Mac
+# Mac cannot work with GPU
 hash_file=${cap_name}_hash.txt
 hashcat -D 2 -d 3 -m 22000 -w 3 ${hash_file} ${dict} -o ${cap_name}_key.txt --potfile-path ${cap_name}.potfile
 ```
@@ -71,10 +75,22 @@ Parameter explain:
 1. Say `cap_name=test`
 2. Test hasfile, save it as `${cap_name}_hash.txt`
 ```bash
-WPA*02*49526c027401f63edc80c85aa442d750*9c7f81f75873*902bd2173a69*373032*e68ae1f2d3035d0331929680c7b37a34cbb5a6a49818508d8aa0ce1fc15731ea*0103007502010a00000000000000000001cee19b37dacef48e3fef8da8e293941ee5982787b9a3d8f60fc8d5e1e80f14b4000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001630140100000fac040100000fac040100000fac020000*82
+WPA*02*78ec7edcd261cbd4ecfae7744fe4a3a7*24698ec18237*d8aa59584261*323032*dcab6957d64454a5759ab7a83e3bde73bd7bbcff777aeb91b1a02b24c2ff3416*0103007502010a000000000000000000012016734a4a7126b793325e7ecf138f17572a0262d1905bbb2dc5735582488201000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001630140100000fac040100000fac040100000fac020000*02
 ``` 
 3. Test key `13981897424`, save it as dictionary
-
+```
+2131231231231212
+wpakey.txt12312312312                 
+1232132131231231
+213123123123213
+321123123123
+3231231231231
+32123321321321
+3123123123123123
+13981897424
+444123123123
+```
+4. Run test
 
 ## Reference
 [Cracking WPA2-PSK with Hashcat](https://node-security.com/posts/cracking-wpa2-with-hashcat/)
