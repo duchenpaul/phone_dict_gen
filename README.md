@@ -50,3 +50,6 @@ aircrack-ng -l wpakey.txt -w ~/phone_dict_gen/phone.dict ${caps}
 
 ## Phone data src
 https://gitee.com/oss/phonedata/attach_files
+
+## Use Hashcat to crack password
+See [hashcat-guide.md](hashcat-guide.md)
