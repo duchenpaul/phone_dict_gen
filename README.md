@@ -6,6 +6,10 @@ Set priority in table `province_priority` to adjust the sequence of the province
 - `load_phone.py` loads phone numbers to sqlitedb
 - `phone_dict_gen.py` will generate the phone dicts
 
+## Download data files
+- Download phone_region.db from ["我的文档" in 天翼云盘](https://cloud.189.cn/web/main/file/folder/-15)
+- Download phone.csv from ["我的文档" in 天翼云盘](https://cloud.189.cn/web/main/file/folder/-15)
+
 ## Crack cmd
 ```bash
 # wlan interface
