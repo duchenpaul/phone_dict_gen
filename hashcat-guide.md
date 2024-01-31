@@ -58,10 +58,14 @@ That makes it hard to recover the PSK.
 ```bash
 # Windows in git cmd
 cap_name=24-69-8E-C1-82-37_handshake
-./hashcat.exe -m 22000 -w 3 --hwmon-disable \
+./hashcat.exe -m 22000 -w 3 --hwmon-disable 
+--session ${cap_name} \
 /c/Users/duche/Desktop/project/phone_dict_gen/${cap_name}.hc22000 \
 /c/Users/duche/Desktop/project/phone_dict_gen/phone.dict \
 -o ${cap_name}_key.txt --potfile-path ${cap_name}.potfile
+
+# Restore session
+hashcat --session ${cap_name} --restore
 
 # Mac cannot work with GPU
 hash_file=${cap_name}_hash.txt
