@@ -5,6 +5,7 @@ Hashcat supports GPU, so the speed will be faster than CPU, this is a guide to u
 1. Install hcxtools and hashcat
 ```bash
 brew install hcxtools hashcat
+sudo apt install -y hcxtools hashcat
 ```
 
 ## Collect host information
@@ -57,11 +58,18 @@ That makes it hard to recover the PSK.
 ## Start Hashcat
 ```bash
 # Windows in git cmd
+work_path=/c/Users/duche/Desktop/project/phone_dict_gen
+dict_path=${work_path}/phone.dict
+cap_path=${dict_path}/caps
 cap_name=24-69-8E-C1-82-37_handshake
-./hashcat.exe -m 22000 -w 3 --hwmon-disable \
+
+ls -l ${dict_path}
+ls -l ${cap_name}.hc22000
+
+hashcat -m 22000 -w 3 --hwmon-disable \
 --session ${cap_name} --status --status-timer 10 \
-/c/Users/duche/Desktop/project/phone_dict_gen/${cap_name}.hc22000 \
-/c/Users/duche/Desktop/project/phone_dict_gen/phone.dict \
+${cap_path}/${cap_name}.hc22000 \
+${dict_path}/phone.dict \
 -o ${cap_name}_key.txt --potfile-path ${cap_name}.potfile
 
 # Restore session
@@ -95,6 +103,14 @@ wpakey.txt12312312312
 444123123123
 ```
 4. Run test
+
+## Benchmark
+| Chip          | Hash mode                      | Speed       | Time to run 8digit + phone dict (min) |
+| ------------- | ------------------------------ | ----------- | ------------------------------------- |
+| 4070 Ti super | 22000 (WPA-PBKDF2-PMKID+EAPOL) | 1149.4 kH/s | 65                                    |
+
+
+
 
 ## Reference
 [Cracking WPA2-PSK with Hashcat](https://node-security.com/posts/cracking-wpa2-with-hashcat/)
