@@ -39,4 +39,4 @@ hashcat -m 22000 -w 3 --hwmon-disable \
 --session ${cap_name} --status --status-timer 10 \
 ${hc22000_file} \
 ${dict_path} \
--o ${cap_name}_key.txt --potfile-path ${cap_name}.potfile
+-o ${work_path}/${cap_name}_key.txt --potfile-path ${work_path}/${cap_name}.potfile
