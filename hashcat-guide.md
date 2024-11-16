@@ -1,6 +1,11 @@
 # Use Hashcat to crack password
 Hashcat supports GPU, so the speed will be faster than CPU, this is a guide to use MacBook to run hashcat
 
+## TL;DR Use script
+1. Copy `crack_script/run_hashcat.sh` to your work path
+2. Edit the path vars and change the cap name `cap=`
+3. run `run_hashcat.sh`
+
 ## Install tools
 1. Install hcxtools and hashcat
 ```bash
@@ -83,7 +88,7 @@ Parameter explain:
 `-D 2` will force the hashcat to only look for GPUs. (-D is for specifying device type)
 `-d 3` will force it to use the Radeon Pro 560X Compute Engine. (-d is for specifying the backend device number)
 
-## Test
+## Demo
 1. Say `cap_name=test`
 2. Test hasfile, save it as `${cap_name}_hash.txt`
 ```bash
@@ -105,11 +110,9 @@ wpakey.txt12312312312
 4. Run test
 
 ## Benchmark
-| Chip          | Hash mode                      | Speed       | Time to run 8digit + phone dict (min) |
-| ------------- | ------------------------------ | ----------- | ------------------------------------- |
-| 4070 Ti super | 22000 (WPA-PBKDF2-PMKID+EAPOL) | 1149.4 kH/s | 65                                    |
-
-
+| Chip          | Hash mode                      | Speed (-w 3) | Speed (-w 4) | Time to run 8digit + phone dict est. (min) |
+| ------------- | ------------------------------ | ------------ | ------------ | ------------------------------------------ |
+| 4070 Ti super | 22000 (WPA-PBKDF2-PMKID+EAPOL) | 1149.4 kH/s  | 1237.4 kH/s  | 65                                         |
 
 
 ## Reference
