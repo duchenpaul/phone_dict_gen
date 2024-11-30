@@ -43,7 +43,7 @@ if [ -z "$cap" ]; then
 fi
 
 
-exec > ${LOG} 2>&1
+exec >> ${LOG} 2>&1
 printf "$0 started at `date`\n" 
 
 cd ${work_path}
