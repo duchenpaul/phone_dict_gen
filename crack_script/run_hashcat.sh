@@ -48,7 +48,7 @@ printf "$0 started at `date`\n"
 
 cd ${work_path}
 
-dict_path=${work_path}/dict/phone.dict
+dict_path=${work_path}/dict/8_digits_phone.dict
 cap_path=${work_path}/caps
 
 echo "Cap file: ${cap}"
