@@ -9,7 +9,6 @@ LOG_PATH=${work_path}/log
 LOG=${LOG_PATH}/${SOURCE}_`date +"%Y%m%d"`.log
 
 mkdir -p ${LOG_PATH}
-exec > ${LOG} 2>&1
 
 usage() {
     echo "Usage: $0 --cap <cap_file>, e.g. $0 --cap test.cap"
@@ -44,7 +43,7 @@ if [ -z "$cap" ]; then
 fi
 
 
-
+exec > ${LOG} 2>&1
 printf "$0 started at `date`\n" 
 
 cd ${work_path}
