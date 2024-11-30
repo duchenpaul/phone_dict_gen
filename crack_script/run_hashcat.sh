@@ -59,12 +59,13 @@ cap_name=$(basename ${cap} .cap)
 
 hc22000_file=${cap_path}/${cap_name}.hc22000
 if [ -f ${hc22000_file} ]; then
+    echo "hc22000 hash file found, skip generating"
+
+else
     echo "Generate hc22000 hash file"
     hcxpcapngtool -o ${hc22000_file} ${cap_path}/${cap_name}.cap 
     echo "Generated: "
     ls -l ${hc22000_file}
-else
-    echo "hc22000 hash file found, skip generating"
 fi
 
 echo "Show phone dictionary"
