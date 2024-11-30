@@ -11,14 +11,48 @@ LOG=${LOG_PATH}/${SOURCE}_`date +"%Y%m%d"`.log
 mkdir -p ${LOG_PATH}
 exec > ${LOG} 2>&1
 
+usage() {
+    echo "Usage: $0 --cap <cap_file>, e.g. $0 --cap test.cap"
+    exit 1
+}
+
+# Parse command-line arguments
+if [[ $# -lt 2 ]]; then
+    usage
+    exit 1
+fi
+
+while [[ $# -gt 0 ]]; do
+    key="$1"
+
+    case $key in
+        --cap)
+            cap="$2"
+            shift # past argument
+            shift # past value
+            ;;
+        *)
+            echo "Unknown option: $1"
+            usage
+            ;;
+    esac
+done
+
+if [ -z "$cap" ]; then
+    echo "Usage: $0 --cap <cap_file>"
+    exit 1
+fi
+
+
+
 printf "$0 started at `date`\n" 
 
 cd ${work_path}
 
-dict_path=${work_path}/phone.dict
+dict_path=${work_path}/dict/phone.dict
 cap_path=${work_path}/caps
-cap=48:7D:2E:1C:05:EA.cap-01.cap
 
+echo "Cap file: ${cap}"
 echo "Work path: ${work_path}"
 echo "Dictionary file: ${dict_path}"
 
@@ -48,9 +82,10 @@ else
     hashcat -m 22000 -w 3 --hwmon-disable \
     --session ${cap_name} --status --status-timer 10 \
     --restore-file-path=${work_path}/${cap_name}.restore \
+    --potfile-path=${LOG_PATH}/${cap_name}.potfile \
+    -o ${LOG_PATH}/${cap_name}_key.txt \
     ${hc22000_file} \
-    ${dict_path} \
-    -o ${work_path}/${cap_name}_key.txt --potfile-path ${work_path}/${cap_name}.potfile
+    ${dict_path}
 fi
 
 printf "$0 finished at `date`\n"

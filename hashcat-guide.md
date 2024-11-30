@@ -4,7 +4,21 @@ Hashcat supports GPU, so the speed will be faster than CPU, this is a guide to u
 ## TL;DR Use script
 1. Copy `crack_script/run_hashcat.sh` to your work path
 2. Edit the path vars and change the cap name `cap=`
-3. run `run_hashcat.sh`
+3. Ensure `dict` folder exists and `phone.dict` is ready
+```
+├── caps
+│   ├── handshake_G_44-F7-70-16-1E-62_2024-11-30T16-32-44.cap
+│   └── handshake_G_44-F7-70-16-1E-62_2024-11-30T16-32-44.hc22000
+├── dict
+│   └── 8_digits.dict
+├── handshake_G_44-F7-70-16-1E-62_2024-11-30T16-32-44_key.txt
+├── handshake_G_44-F7-70-16-1E-62_2024-11-30T16-32-44.potfile
+├── log
+│   ├── run_hashcat_20241116.log
+│   └── run_hashcat_20241130.log
+└── run_hashcat.sh
+```
+4. run `run_hashcat.sh`
 
 ## Install tools
 1. Install hcxtools and hashcat
