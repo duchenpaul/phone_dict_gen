@@ -124,9 +124,12 @@ wpakey.txt12312312312
 4. Run test
 
 ## Benchmark
+Command: `hashcat -b -m 22000 -w 3`
+
 | Chip          | Hash mode                      | Speed (-w 3) | Speed (-w 4) | Time to run 8digit + phone dict est. (min) |
 | ------------- | ------------------------------ | ------------ | ------------ | ------------------------------------------ |
 | 4070 Ti super | 22000 (WPA-PBKDF2-PMKID+EAPOL) | 1149.4 kH/s  | 1237.4 kH/s  | 65                                         |
+| NVIDIA RTX 4000 Ada Generation | 22000 (WPA-PBKDF2-PMKID+EAPOL) | 785.9 kH/s  | 791.0 kH/s  | -                                         |
 
 
 ## Reference
